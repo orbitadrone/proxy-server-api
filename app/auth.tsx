@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, TextInput, Button, Alert } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-// import auth from '@react-native-firebase/auth';
+
 
 export default function AuthScreen() {
   const [email, setEmail] = useState('');
