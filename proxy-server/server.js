@@ -22,7 +22,7 @@ app.post('/api/enaire-zones', async (req, res) => {
 
   const zoneFiles = [
     './assets/enaire_zones/ZGUAS_Aero.json',
-    './assets/enaire_zones/ZGUAS_Infra.json',
+    // './assets/enaire_zones/ZGUAS_Infra.json', // Excluido temporalmente para pruebas de memoria
     './assets/enaire_zones/ZGUAS_Urbano.json'
   ];
 
