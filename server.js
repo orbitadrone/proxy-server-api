@@ -1,45 +1,53 @@
 const express = require('express');
-const axios = require('axios');
+const fs = require('fs'); // Importar el módulo fs
 const cors = require('cors');
+const { point, booleanPointInPolygon } = require('@turf/turf'); // Importar turf para la lógica de geolocalización
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json()); // ¡IMPORTANTE! Para parsear el body JSON
+app.use(express.json()); // Para parsear el body JSON
+
+let enaireZonesData = null; // Variable para almacenar los datos de las zonas ENAIRE
+
+// Cargar los datos de las zonas ENAIRE al iniciar el servidor
+try {
+  const filePath = './assets/enaire_zones/Zonas_UAS_URBANO_nacional.json'; // Ruta relativa al directorio del proxy-server
+  const rawData = fs.readFileSync(filePath);
+  enaireZonesData = JSON.parse(rawData);
+  console.log('Zonas ENAIRE cargadas exitosamente desde el archivo.');
+} catch (error) {
+  console.error('Error al cargar las zonas ENAIRE desde el archivo:', error);
+  // Si el archivo no se encuentra o hay un error de parseo, el servidor no podrá funcionar correctamente
+  process.exit(1); // Salir del proceso si no se pueden cargar los datos críticos
+}
 
 app.post('/api/enaire-zones', async (req, res) => {
-  // Obtener latitud y longitud del cuerpo de la solicitud
   const { latitude, longitude } = req.body;
 
   if (!latitude || !longitude) {
     return res.status(400).send({ error: 'Missing latitude or longitude parameters in request body' });
   }
 
-  // Construir el bbox a partir de la latitud y longitud
-  // Asumiendo un pequeño rango alrededor del punto para el bbox
-  const delta = 0.01; // Puedes ajustar este valor según la necesidad
-  const bbox = `${longitude - delta},${latitude - delta},${longitude + delta},${latitude + delta}`;
+  const queryPoint = point([longitude, latitude]);
+  const intersectingZones = [];
 
-  const enaireUrl = `https://servais.enaire.es/insignia/services/NSF_SRV/SRV_UAS_ZG_V1/MapServer/0/query?where=1%3D1&outFields=*&geometryType=esriGeometryEnvelope&geometry=${bbox}&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=geojson`;
+  if (enaireZonesData && enaireZonesData.features) {
+    for (const feature of enaireZonesData.features) {
+      // Asegurarse de que la geometría es un polígono o multipolígono
+      if (feature.geometry && (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon')) {
+        if (booleanPointInPolygon(queryPoint, feature)) {
+          intersectingZones.push(feature.properties.TIPO); // O cualquier otra propiedad relevante
+        }
+      }
+    }
+  }
 
-  console.log(`Fetching data for bbox: ${bbox}`);
-
-  try {
-    const response = await axios.get(enaireUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-        'Referer': 'https://drones.enaire.es/',
-      },
-    });
-
-    res.json(response.data);
-  } catch (error) {
-    console.error('Error fetching from ENAIRE:', error.response ? error.response.status : error.message);
-    res.status(error.response ? error.response.status : 500).send({
-      error: 'Failed to fetch data from ENAIRE',
-      details: error.message,
-    });
+  if (intersectingZones.length > 0) {
+    res.json({ messages: [`Punto dentro de las siguientes zonas ENAIRE: ${intersectingZones.join(', ')}`] });
+  } else {
+    res.json({ messages: ["No se encontraron zonas ENAIRE en este punto."] });
   }
 });
 
