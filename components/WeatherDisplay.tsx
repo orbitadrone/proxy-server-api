@@ -176,7 +176,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ latitude, longitude, on
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Permitir que el contenedor se expanda
+    // flex: 1, // Eliminado para depuración
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
