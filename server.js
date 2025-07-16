@@ -5,14 +5,21 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors()); // Permite peticiones desde cualquier origen (nuestra app)
+app.use(cors());
+app.use(express.json()); // ¡IMPORTANTE! Para parsear el body JSON
 
 app.post('/api/enaire-zones', async (req, res) => {
-  const { bbox } = req.query;
+  // Obtener latitud y longitud del cuerpo de la solicitud
+  const { latitude, longitude } = req.body;
 
-  if (!bbox) {
-    return res.status(400).send({ error: 'Missing bbox parameter' });
+  if (!latitude || !longitude) {
+    return res.status(400).send({ error: 'Missing latitude or longitude parameters in request body' });
   }
+
+  // Construir el bbox a partir de la latitud y longitud
+  // Asumiendo un pequeño rango alrededor del punto para el bbox
+  const delta = 0.01; // Puedes ajustar este valor según la necesidad
+  const bbox = `${longitude - delta},${latitude - delta},${longitude + delta},${latitude + delta}`;
 
   const enaireUrl = `https://servais.enaire.es/insignia/services/NSF_SRV/SRV_UAS_ZG_V1/MapServer/0/query?where=1%3D1&outFields=*&geometryType=esriGeometryEnvelope&geometry=${bbox}&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=geojson`;
 
