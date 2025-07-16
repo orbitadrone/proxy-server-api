@@ -28,13 +28,15 @@ export const fetchWeatherForecast = async (latitude: number, longitude: number) 
       `${WEATHER_API_URL}?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
     );
     const data = await response.json();
+    console.log('Respuesta de la API del clima (response.ok):', response.ok);
+    console.log('Datos de la API del clima:', data);
 
     if (response.ok) {
       // await AsyncStorage.setItem(WEATHER_DATA_KEY, JSON.stringify(data));
       // await AsyncStorage.setItem(LAST_FETCH_TIMESTAMP_KEY, Date.now().toString());
       return data;
     } else {
-      console.error('Error al obtener datos del clima:', data);
+      console.error('Error al obtener datos del clima (API response):', data);
       throw new Error(data.message || 'Error al obtener datos del clima');
     }
   } catch (error) {

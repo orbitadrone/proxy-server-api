@@ -131,12 +131,15 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ latitude, longitude, on
   }
 
   if (!weatherForecast || !weatherForecast.list) {
+    console.log('WeatherDisplay: No hay datos de predicción o lista vacía.', weatherForecast);
     return (
       <View style={styles.container}>
         <Text>No hay datos de predicción del clima disponibles.</Text>
       </View>
     );
   }
+
+  console.log('WeatherDisplay: Datos recibidos para renderizar:', weatherForecast);
 
   const renderForecastItem = ({ item }: { item: ForecastItem }) => (
     <View style={styles.forecastItem}>
