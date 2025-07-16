@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors()); // Permite peticiones desde cualquier origen (nuestra app)
 
-app.get('/api/enaire-zones', async (req, res) => {
+app.post('/api/enaire-zones', async (req, res) => {
   const { bbox } = req.query;
 
   if (!bbox) {
@@ -21,7 +21,7 @@ app.get('/api/enaire-zones', async (req, res) => {
   try {
     const response = await axios.get(enaireUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
         'Referer': 'https://drones.enaire.es/',
       },
     });
