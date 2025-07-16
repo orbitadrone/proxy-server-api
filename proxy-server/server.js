@@ -17,9 +17,9 @@ let enaireZonesData = {
 // Cargar y combinar los datos de las zonas ENAIRE al iniciar el servidor
 try {
   const zoneFiles = [
-    './assets/enaire_zones/Zonas_UAS_AERO_nacional.json',
-    './assets/enaire_zones/Zonas_UAS_INFRAESTRUCTURAS_nacional.json',
-    './assets/enaire_zones/Zonas_UAS_URBANO_nacional.json'
+    './assets/enaire_zones/ZGUAS_Aero.json',
+    './assets/enaire_zones/ZGUAS_Infra.json',
+    './assets/enaire_zones/ZGUAS_Urbano.json'
   ];
 
   zoneFiles.forEach(filePath => {
