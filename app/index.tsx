@@ -341,6 +341,34 @@ export default function MapScreen() {
           </View>
         </View>
       </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isWebViewModalVisible}
+        onRequestClose={() => setIsWebViewModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.webViewModalContent}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setIsWebViewModalVisible(false)}>
+              <Text style={styles.closeButtonText}>Cerrar</Text>
+            </TouchableOpacity>
+            {webViewUrl ? (
+              <WebView 
+                source={{ uri: webViewUrl }}
+                style={{ flex: 1, width: '100%', backgroundColor: 'white' }}
+                onLoad={() => console.log('WebView loaded successfully.')}
+                onLoadError={(syntheticEvent) => {
+                  const { nativeEvent } = syntheticEvent;
+                  console.error('WebView loading error:', nativeEvent.code, nativeEvent.description, nativeEvent.url);
+                }}
+              />
+            ) : (
+              <Text>No URL to display.</Text>
+            )}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
