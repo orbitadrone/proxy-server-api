@@ -1,0 +1,5 @@
+# Ignorar directorios que no deben ser parte de la compilación de EAS
+AppData/
+.expo/
+node_modules/
+.git/
