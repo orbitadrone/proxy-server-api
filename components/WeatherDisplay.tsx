@@ -160,13 +160,12 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ latitude, longitude, on
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Predicción en {weatherForecast.city.name}</Text>
-      {/* <FlatList
+      <FlatList
         data={weatherForecast.list}
         renderItem={renderForecastItem}
         keyExtractor={(item) => item.dt.toString()}
         style={styles.forecastList}
-      /> */}
-      <Text>Datos de la predicción cargados. (FlatList temporalmente deshabilitada)</Text>
+      />
       <TouchableOpacity onPress={onClose} style={styles.closeButton}>
         <Text style={styles.closeButtonText}>Cerrar</Text>
       </TouchableOpacity>

@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: '90%',
-    // maxHeight: '80%', // Eliminado temporalmente para depuración
+    maxHeight: '80%', // Restaurado
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 20,
