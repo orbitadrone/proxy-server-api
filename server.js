@@ -44,6 +44,8 @@ app.post('/api/enaire-zones', async (req, res) => {
     }
   }
 
+  console.log('Zonas intersectadas:', intersectingZones); // <-- ¡NUEVA LÍNEA AQUÍ!
+
   if (intersectingZones.length > 0) {
     res.json({ messages: [`Punto dentro de las siguientes zonas ENAIRE: ${intersectingZones.join(', ')}`] });
   } else {
