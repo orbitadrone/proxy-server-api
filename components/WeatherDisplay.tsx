@@ -94,6 +94,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ latitude, longitude, on
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('WeatherDisplay useEffect running. Latitude:', latitude, 'Longitude:', longitude);
     const getForecast = async () => {
       setLoading(true);
       setError(null);
