@@ -341,8 +341,6 @@ export default function MapScreen() {
           </View>
         </View>
       </Modal>
-
-      </Modal>
     </View>
   );
 }
