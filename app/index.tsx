@@ -207,8 +207,10 @@ export default function MapScreen() {
             pinColor="purple"
             onPress={() => {
               const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(poi.title)}`;
+              console.log('Marker pressed. Google Search URL:', googleSearchUrl);
               setWebViewUrl(googleSearchUrl);
               setIsWebViewModalVisible(true);
+              console.log('isWebViewModalVisible set to true.');
             }}
           />
         ))}
