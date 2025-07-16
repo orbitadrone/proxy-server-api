@@ -34,7 +34,7 @@ app.post('/api/enaire-zones', async (req, res) => {
       if (enaireZonesData && enaireZonesData.features) {
         for (const feature of enaireZonesData.features) {
           if (feature.geometry && (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon')) {
-            if (feature.properties.UASZone && (feature.properties.UASZone.type === 'TPM' || feature.properties.UASZone.type === 'TMA')) {
+            if (feature.properties.UASZone && (feature.properties.UASZone.type === 'TPM' || feature.properties.UASZone.type === 'TMA' || feature.properties.UASZone.identifier === 'NPLONA')) {
               continue;
             }
 
