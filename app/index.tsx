@@ -342,20 +342,6 @@ export default function MapScreen() {
         </View>
       </Modal>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isWebViewModalVisible}
-        onRequestClose={() => setIsWebViewModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.webViewModalContent}> {/* Usar nuevo estilo aquí */}
-            <TouchableOpacity style={styles.closeButton} onPress={() => setIsWebViewModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Cerrar</Text>
-            </TouchableOpacity>
-            {webViewUrl ? <Text>WebView content would go here: {webViewUrl}</Text> : <Text>No URL to display.</Text>}
-          </View>
-        </View>
       </Modal>
     </View>
   );
