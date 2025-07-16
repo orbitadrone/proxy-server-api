@@ -131,15 +131,12 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ latitude, longitude, on
   }
 
   if (!weatherForecast || !weatherForecast.list) {
-    console.log('WeatherDisplay: weatherForecast or weatherForecast.list is null or undefined.', weatherForecast);
     return (
       <View style={styles.container}>
         <Text>No hay datos de predicción del clima disponibles.</Text>
       </View>
     );
   }
-
-  console.log('WeatherDisplay: Rendering with data:', weatherForecast);
 
   const renderForecastItem = ({ item }: { item: ForecastItem }) => (
     <View style={styles.forecastItem}>
@@ -203,6 +200,8 @@ const styles = StyleSheet.create({
   forecastList: {
     width: '100%',
     marginTop: 10,
+    flexGrow: 0, // Asegura que no intente expandirse infinitamente
+    height: 300, // Altura fija para depuración, ajusta según necesidad
   },
   forecastItem: {
     padding: 10,
