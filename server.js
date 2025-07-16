@@ -3,11 +3,11 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors()); // Permite peticiones desde cualquier origen (nuestra app)
 
-app.get('/api/enaire', async (req, res) => {
+app.get('/api/enaire-zones', async (req, res) => {
   const { bbox } = req.query;
 
   if (!bbox) {
