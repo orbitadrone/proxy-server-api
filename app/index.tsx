@@ -349,11 +349,11 @@ export default function MapScreen() {
         onRequestClose={() => setIsWebViewModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <View style={styles.webViewModalContent}> {/* Usar nuevo estilo aquí */}
             <TouchableOpacity style={styles.closeButton} onPress={() => setIsWebViewModalVisible(false)}>
               <Text style={styles.closeButtonText}>Cerrar</Text>
             </TouchableOpacity>
-            {webViewUrl ? <WebView source={{ uri: webViewUrl }} style={{ flex: 1, width: '100%' }} /> : <Text>No URL to display.</Text>}
+            {webViewUrl ? <WebView source={{ uri: webViewUrl }} style={{ flex: 1, width: '100%', backgroundColor: 'white' }} /> : <Text>No URL to display.</Text>}
           </View>
         </View>
       </Modal>
@@ -458,6 +458,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     width: '100%',
+  },
+  // Nuevo estilo para el modal de WebView
+  webViewModalContent: {
+    width: '95%',
+    height: '90%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10,
   },
   // Nuevos estilos para los botones de capa
   layerButtonsContainer: {
