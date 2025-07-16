@@ -34,15 +34,20 @@ app.post('/api/enaire-zones', async (req, res) => {
       if (enaireZonesData && enaireZonesData.features) {
         for (const feature of enaireZonesData.features) {
           if (feature.geometry && (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon')) {
-            if (feature.properties.UASZone && feature.properties.UASZone.type === 'TPM') {
+            if (feature.properties.UASZone && (feature.properties.UASZone.type === 'TPM' || feature.properties.UASZone.type === 'TMA')) {
               continue;
             }
 
             if (booleanPointInPolygon(queryPoint, feature)) {
               intersectingFeatures.push(feature);
-              const zoneProps = feature.properties.UASZone;
-              const message = `Tipo de zona: ${zoneProps.type}, Identificador: ${zoneProps.identifier}`;
-              messages.push(message);
+              // Usar el mensaje completo de la zona
+              if (feature.properties.UASZone && feature.properties.UASZone.message) {
+                messages.push(feature.properties.UASZone.message);
+              } else {
+                // Fallback si no hay mensaje específico
+                const zoneProps = feature.properties.UASZone;
+                messages.push(`Tipo de zona: ${zoneProps.type}, Identificador: ${zoneProps.identifier}`);
+              }
             }
           }
         }
