@@ -353,7 +353,7 @@ export default function MapScreen() {
             <TouchableOpacity style={styles.closeButton} onPress={() => setIsWebViewModalVisible(false)}>
               <Text style={styles.closeButtonText}>Cerrar</Text>
             </TouchableOpacity>
-            {webViewUrl ? <WebView source={{ uri: webViewUrl }} style={{ flex: 1, width: '100%', backgroundColor: 'white' }} /> : <Text>No URL to display.</Text>}
+            {webViewUrl ? <Text>WebView content would go here: {webViewUrl}</Text> : <Text>No URL to display.</Text>}
           </View>
         </View>
       </Modal>
