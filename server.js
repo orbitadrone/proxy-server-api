@@ -31,25 +31,30 @@ app.post('/api/enaire-zones', async (req, res) => {
   }
 
   const queryPoint = point([longitude, latitude]);
-  const intersectingZones = [];
+  const intersectingFeatures = []; // Almacenará las features completas
+  const intersectingZoneTypes = []; // Almacenará los tipos para el mensaje
 
   if (enaireZonesData && enaireZonesData.features) {
     for (const feature of enaireZonesData.features) {
       // Asegurarse de que la geometría es un polígono o multipolígono
       if (feature.geometry && (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon')) {
         if (booleanPointInPolygon(queryPoint, feature)) {
-          intersectingZones.push(feature.properties.UASZone.type); // O cualquier otra propiedad relevante
+          intersectingFeatures.push(feature); // Añadir la feature completa
+          intersectingZoneTypes.push(feature.properties.UASZone.type); // Añadir el tipo para el mensaje
         }
       }
     }
   }
 
-  console.log('Zonas intersectadas:', intersectingZones); // <-- ¡NUEVA LÍNEA AQUÍ!
+  console.log('Zonas intersectadas:', intersectingZoneTypes);
 
-  if (intersectingZones.length > 0) {
-    res.json({ messages: [`Punto dentro de las siguientes zonas ENAIRE: ${intersectingZones.join(', ')}`] });
+  if (intersectingFeatures.length > 0) {
+    res.json({
+      messages: [`Punto dentro de las siguientes zonas ENAIRE: ${intersectingZoneTypes.join(', ')}`],
+      features: intersectingFeatures // Devolver las features completas
+    });
   } else {
-    res.json({ messages: ["No se encontraron zonas ENAIRE en este punto."] });
+    res.json({ messages: ["No se encontraron zonas ENAIRE en este punto."], features: [] }); // Devolver un array vacío si no hay features
   }
 });
 
