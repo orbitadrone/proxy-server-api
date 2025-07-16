@@ -38,7 +38,7 @@ app.post('/api/enaire-zones', async (req, res) => {
       // Asegurarse de que la geometría es un polígono o multipolígono
       if (feature.geometry && (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon')) {
         if (booleanPointInPolygon(queryPoint, feature)) {
-          intersectingZones.push(feature.properties.TIPO); // O cualquier otra propiedad relevante
+          intersectingZones.push(feature.properties.UASZone.type); // O cualquier otra propiedad relevante
         }
       }
     }
