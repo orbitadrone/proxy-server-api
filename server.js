@@ -38,6 +38,11 @@ app.post('/api/enaire-zones', async (req, res) => {
     for (const feature of enaireZonesData.features) {
       // Asegurarse de que la geometría es un polígono o multipolígono
       if (feature.geometry && (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon')) {
+        // Añadir condición para excluir zonas TPM
+        if (feature.properties.UASZone && feature.properties.UASZone.type === 'TPM') {
+          continue; // Saltar esta feature si es de tipo TPM
+        }
+
         if (booleanPointInPolygon(queryPoint, feature)) {
           intersectingFeatures.push(feature); // Añadir la feature completa
           intersectingZoneTypes.push(feature.properties.UASZone.type); // Añadir el tipo para el mensaje
