@@ -325,6 +325,17 @@ export default function MapScreen() {
               <Button title="Buscar" onPress={performSearch} />
               <Button title="Cancelar" onPress={() => setIsSearchModalVisible(false)} color="#ff5c5c" />
             </View>
+            <View style={styles.quickSearchButtons}>
+              <Text style={styles.quickSearchTitle}>Búsquedas rápidas:</Text>
+              <View style={styles.buttonRow}>
+                <Button title="Restaurantes" onPress={() => { setSearchText('restaurantes'); performSearch(); }} />
+                <Button title="Farmacias" onPress={() => { setSearchText('farmacias'); performSearch(); }} />
+                <Button title="Gasolineras" onPress={() => { setSearchText('gasolineras'); performSearch(); }} />
+                <Button title="Hoteles" onPress={() => { setSearchText('hoteles'); performSearch(); }} />
+                <Button title="Camping" onPress={() => { setSearchText('camping'); performSearch(); }} />
+                <Button title="Autocaravanas" onPress={() => { setSearchText('zona de autocaravanas'); performSearch(); }} />
+              </View>
+            </View>
           </View>
         </View>
       </Modal>
